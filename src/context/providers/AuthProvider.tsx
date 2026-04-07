@@ -71,7 +71,7 @@ export default function AuthProvider({ children }: Readonly<{ children: ReactNod
         return response;
     };
 
-    const [fcmToken, setFcmToken] = useState<string | null>(null);
+
     const handleRequestFCM = async () => {
         // 1. Permission Check
         if (Notification.permission === "denied") return;

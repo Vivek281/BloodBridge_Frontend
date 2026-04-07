@@ -1,7 +1,7 @@
 import { useParams, useNavigate } from "react-router";
 import { useEffect, useState } from "react";
 import axiosInstance from "../../config/axios.config";
-import { Phone, ShieldCheck, MapPin, Clock, ChevronLeft, MessageCircle, User, Star, Zap, Info, CheckCircle, Heart} from "lucide-react";
+import { Phone, ShieldCheck, MapPin, ChevronLeft, MessageCircle, User, Star, Zap, Info} from "lucide-react";
 import { toast } from "sonner";
 
 interface DonorData {

@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import { Droplets } from 'lucide-react';
 import BloodRequestForm from '../../components/bloodRequest/BloodRequestForm';
 
 const BloodRequestPage: React.FC = () => {
