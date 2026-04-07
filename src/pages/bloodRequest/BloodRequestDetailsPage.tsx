@@ -37,7 +37,7 @@ const BloodRequestDetailsPage = () => {
     const handleConfirmDonation = async () => {
         setIsAccepting(true);
         try {
-            const res = await axiosInstance.post(`/blood-request/${id}/accept`);
+            await axiosInstance.post(`/blood-request/${id}/accept`);
             toast.success("Request Accepted!", {
                 description: "The patient is now relying on you. Please proceed.",
             });
