@@ -73,8 +73,8 @@ const UserLayout: React.FC = () => {
           action: {
             label: 'View',
             onClick: () => {
-              if (data?.requestId) navigate(`/requests/${data.requestId}`);
-              else if(data?.donorId) navigate(`/donor/${data.donorId}`);
+              if (data && data.requestId) navigate(`/requests/${data.requestId}`);
+              else if(data && data.donorId) navigate(`/donor/${data.donorId}`);
               else navigate("/requests");
             }
           }
