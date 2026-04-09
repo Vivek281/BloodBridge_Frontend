@@ -85,8 +85,8 @@ const DonorDetailsPage = () => {
                                 <ShieldCheck size={16} strokeWidth={3} />
                             </div>
                         </div>
-                        <div className="flex flex-col items-end gap-2">
-                            <div className="w-16 h-16 bg-rose-50 text-rose-600 rounded-2xl flex flex-col items-center justify-center border border-rose-100 shadow-sm">
+                        <div className="flex flex-col items-end gap-2 pt-4">
+                            <div className="w-16 h-16 bg-rose-50 text-rose-600 rounded-2xl flex flex-col items-center justify-center border border-rose-100 shadow-sm relative shadow-lg overflow-hidden">
                                 <span className="text-[10px] font-black leading-none mb-0.5 uppercase">Group</span>
                                 <span className="text-2xl font-black leading-none tracking-tighter">{donor.bloodGroup}</span>
                             </div>
