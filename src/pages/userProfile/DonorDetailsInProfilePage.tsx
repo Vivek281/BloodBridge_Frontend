@@ -61,7 +61,20 @@ const DonorDetailsInProfilePage = () => {
         </div>
     );
 
-    if (!donor) return null;
+    if (!donor) return (
+        <div className="min-h-screen flex items-center justify-center bg-slate-50 dark:bg-slate-950">
+            <div className="text-center p-6 bg-white dark:bg-slate-900 rounded-3xl shadow-sm border border-slate-200 dark:border-slate-800">
+                <h2 className="text-2xl font-bold text-slate-800 dark:text-slate-200">Request Hasn't Been Accepted</h2>
+                <p className="text-slate-500 pt-2 mb-6">The donor detail will be shown once the request is accepted.</p>
+                <button
+                    onClick={() => navigate('/')}
+                    className="px-6 py-2 bg-rose-600 text-white rounded-full font-bold hover:bg-rose-700 transition-colors"
+                >
+                    Return to Home
+                </button>
+            </div>
+        </div>
+    );;
 
     return (
         <div className="min-h-screen bg-slate-50 text-slate-900 font-sans pb-12">
