@@ -2,6 +2,7 @@ import { useNavigate } from "react-router";
 import { useEffect, useState } from "react";
 import axiosInstance from "../../config/axios.config";
 import { ArrowLeft, MapPin, AlertCircle, Clock, CheckCircle2, ExternalLink, Droplets} from "lucide-react";
+import {toast} from "sonner"
 
 export interface IImage {
     optimizedUrl: string;
@@ -71,7 +72,22 @@ const BloodRequestDetailsInProfilePage = () => {
         );
     }
 
+    const handleCancel = async () => {
+        const confirm = window.confirm(
+            "Are you sure you want to cancel the request? This will remove the request from the list."
+        );
+        
+        if (!confirm) return;
 
+        try {
+            await axiosInstance.get(`/blood-request/cancel/${request._id}`);
+            toast.success("Mission cancelled. We've notified the requester.");
+            navigate("/");
+        } catch (err) {
+            toast.error("Failed cancel the request. Please try again.");
+            console.error(err);
+        }
+    };
 
     const urgencyColors: Record<string, string> = {
         high: "bg-rose-100 text-rose-700 border-rose-200 dark:bg-rose-900/30 dark:text-rose-400",
@@ -193,7 +209,7 @@ const BloodRequestDetailsInProfilePage = () => {
                                     </button>
                                     {/* Cancel Button*/}
                                     <button
-                                        onClick={() => {/*Need to Handle the Cancel Here*/}}
+                                        onClick={handleCancel}
                                         className="w-full py-4 bg-transparent text-slate-500 dark:text-slate-400 rounded-2xl font-black text-xs uppercase tracking-widest hover:bg-slate-100 dark:hover:bg-slate-800 transition-all border border-transparent"
                                     >
                                         Cancel Request
