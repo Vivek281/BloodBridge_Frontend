@@ -13,7 +13,7 @@ interface DonorData {
   gender: string;
 }
 
-const DonorDetailsPage = () => {
+const DonorDetailsInProfilePage = () => {
     const { id } = useParams(); // Grabs :id from /donor/:id
     const navigate = useNavigate();
     const [donor, setDonor] = useState<DonorData | null>(null);
@@ -23,7 +23,7 @@ const DonorDetailsPage = () => {
         const fetchDonorDetails = async () => {
             try {
                 // Calling your specific endpoint
-                const res = await axiosInstance.get(`/donation/donor/${id}`);
+                const res = await axiosInstance.get(`/donation/donationId/${id}`);
                 setDonor(res.data);
             } catch (err) {
                 toast.error("Unable to fetch donor details");
@@ -197,4 +197,4 @@ const DonorDetailsPage = () => {
     );
 };
 
-export default DonorDetailsPage;
+export default DonorDetailsInProfilePage;

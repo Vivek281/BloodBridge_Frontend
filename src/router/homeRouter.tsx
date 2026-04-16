@@ -3,12 +3,14 @@ import HomePage from "../pages/home/HomePage";
 import HowItWorksPage from "../pages/home/HowItWorksPage";
 import { bloodRequestRouter } from "./bloodRequestRouter.tsx";
 import { donationRouter } from "./donationRouter.tsx";
+import { userProfileRouter } from "./userProfileRouter.tsx";
 
 export const homeRouter = [
     {path:"/", element:<UserLayout />, children:[
         {index:true, element:<HomePage />},
         {path:"/how-it-works", element:<HowItWorksPage />},
         ...bloodRequestRouter,
-        ...donationRouter
+        ...donationRouter,
+        ...userProfileRouter
     ]},
 ]

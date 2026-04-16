@@ -1,4 +1,4 @@
-import { useParams, useNavigate, useLocation } from "react-router";
+import { useNavigate, useLocation } from "react-router";
 import { useEffect, useState } from "react";
 import axiosInstance from "../../config/axios.config";
 import { 
@@ -13,8 +13,7 @@ import {
 } from "lucide-react";
 import { toast } from "sonner";
 
-const ActiveDonationPage = () => {
-    const { id } = useParams();
+const ActiveDonationInProfilePage = () => {
     const navigate = useNavigate();
     const location = useLocation();
     const [request, setRequest] = useState<any>(null);
@@ -30,7 +29,7 @@ const ActiveDonationPage = () => {
         if (!confirm) return;
 
         try {
-            await axiosInstance.patch(`/donation/cannot-make-it/${id}`);
+            await axiosInstance.patch(`/donation/cannot-make-it/${request._id}`);
             toast.success("Mission cancelled. We've notified the requester.");
             navigate("/");
         } catch (err) {
@@ -42,32 +41,35 @@ const ActiveDonationPage = () => {
     useEffect(() => {
         const fetchActiveDetails = async () => {
             try {
-                const res = await axiosInstance.get(`/blood-request/${id}`);
+                const res = await axiosInstance.get("/blood-request/profile");
                 setRequest(res.data);
             } catch (err) {
                 toast.error("Could not load donation details");
-                navigate('/requests');
             } finally {
                 setLoading(false);
             }
         };
         fetchActiveDetails();
-    }, [id, navigate]);
+    }, []);
 
     if (loading) return (
-        <div className="min-h-screen bg-slate-50 dark:bg-slate-950 flex items-center justify-center transition-colors duration-300">
-            <p className="text-rose-600 font-black uppercase tracking-widest text-[10px] animate-pulse">
-                Loading Mission...
-            </p>
+        <div className="min-h-screen bg-slate-50 dark:bg-slate-950 flex items-center justify-center text-slate-900 dark:text-white transition-colors duration-300">
+            <p className="font-black uppercase tracking-widest text-xs animate-pulse text-rose-600">Loading Mission...</p>
         </div>
     );
 
-    const googleMapsUrl = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(request?.hospitalName || "")}`;
+    if(!request) return (
+        <div className="min-h-screen bg-slate-50 dark:bg-slate-950 flex items-center justify-center text-slate-900 dark:text-white transition-colors duration-300">
+            <p className="font-black uppercase tracking-widest text-xs">No Active Requests To Show.</p>
+        </div>
+    );
+
+    const googleMapsUrl = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(request?.hospitalName)}`;
 
     return (
         <div className="min-h-screen bg-slate-50 dark:bg-slate-950 text-slate-900 dark:text-slate-100 pb-10 transition-colors duration-300">
-            {/* Header Area - Maintains red branding but adjusts shadows */}
-            <div className="bg-rose-600 pt-20 pb-20 px-6 rounded-b-[3rem] shadow-2xl shadow-rose-900/20 relative overflow-hidden">
+            {/* Header Area - Signature Rose Branding */}
+            <div className="bg-rose-600 pt-16 pb-20 px-6 rounded-b-[3rem] shadow-2xl relative overflow-hidden">
                 <div className="absolute top-0 right-0 w-64 h-64 bg-white/10 rounded-full -mr-20 -mt-20 blur-3xl"></div>
                 
                 <button 
@@ -83,9 +85,7 @@ const ActiveDonationPage = () => {
                     </div>
                     <div>
                         <h1 className="text-3xl font-black tracking-tighter text-white">MISSION ACTIVE</h1>
-                        <p className="text-rose-100 font-bold text-xs uppercase tracking-[0.2em] opacity-90">
-                            Donating {request?.patientBloodGroup} Blood
-                        </p>
+                        <p className="text-rose-100 font-bold text-xs uppercase tracking-[0.2em] opacity-90">Donating {request?.patientBloodGroup} Blood</p>
                     </div>
                 </div>
             </div>
@@ -122,12 +122,8 @@ const ActiveDonationPage = () => {
                             <MapPin size={24} />
                         </div>
                         <div>
-                            <h3 className="text-xl font-black leading-tight text-slate-900 dark:text-white">
-                                {request?.hospitalName}
-                            </h3>
-                            <p className="text-slate-500 dark:text-slate-400 text-xs font-bold mt-1 uppercase tracking-tight">
-                                Please arrive within 30-45 minutes.
-                            </p>
+                            <h3 className="text-xl font-black leading-tight text-slate-900 dark:text-white">{request?.hospitalName}</h3>
+                            <p className="text-slate-500 dark:text-slate-400 text-xs font-bold mt-1 uppercase tracking-tight">Please arrive within 30-45 minutes.</p>
                         </div>
                     </div>
                     <a 
@@ -141,20 +137,20 @@ const ActiveDonationPage = () => {
                     </a>
                 </div>
 
-                {/* 3. STATUS SECTION */}
+                {/* 3. TIMELINE/STATUS */}
                 <div className="bg-white/50 dark:bg-slate-900/50 border border-dashed border-slate-200 dark:border-slate-800 p-6 rounded-[2rem] flex items-center gap-4 transition-colors">
                     <div className="p-3 bg-amber-50 dark:bg-amber-500/10 text-amber-600 dark:text-amber-500 rounded-xl">
                         <Clock size={20} />
                     </div>
                     <div className="text-[10px] font-black text-slate-400 dark:text-slate-500 leading-relaxed uppercase tracking-widest">
-                        Status: <span className="text-slate-900 dark:text-white uppercase">Awaiting your arrival</span>
+                        Status: <span className="text-slate-900 dark:text-white">Awaiting arrival</span>
                     </div>
                 </div>
 
                 {/* CANCEL BUTTON */}
                 <button 
                     onClick={handleCancel}
-                    className="w-full py-4 text-slate-400 border rounded-[2rem] dark:text-slate-600 hover:text-rose-500 dark:hover:text-rose-400 text-[10px] font-black uppercase tracking-[0.3em] transition-colors mt-4 flex items-center justify-center gap-2"
+                    className="w-full py-4 text-slate-400 dark:text-slate-600 border rounded-[2rem] hover:text-rose-500 dark:hover:text-rose-400 text-[10px] font-black uppercase tracking-[0.3em] transition-colors mt-4 flex items-center justify-center gap-2"
                 >
                     <AlertTriangle size={14} /> I Can No Longer Make It
                 </button>
@@ -163,4 +159,4 @@ const ActiveDonationPage = () => {
     );
 };
 
-export default ActiveDonationPage;
+export default ActiveDonationInProfilePage;

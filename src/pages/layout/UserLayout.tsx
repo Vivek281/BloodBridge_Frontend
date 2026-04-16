@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { NavLink, Outlet, useNavigate } from 'react-router';
-import { 
-  Droplets, ShieldCheck, ArrowRight, Menu, X, 
+import {
+  Droplets, ShieldCheck, ArrowRight, Menu, X,
   Bell, HandHeart, User, Settings, Moon, Sun,
   LogOut, History, ChevronDown
 } from 'lucide-react';
@@ -66,31 +66,37 @@ const UserLayout: React.FC = () => {
   useEffect(() => {
     const unsubscribe = onMessage(messaging, (payload) => {
       const data = payload.data;
+      const hasDestination = data && (data.requestId || data.donorId);
+
       if (payload.notification) {
-        toast.message(payload.notification.title, {
+        const toastOptions: any = {
           description: payload.notification.body,
           duration: 8000,
-          action: {
+        };
+
+        if (hasDestination) {
+          toastOptions.action = {
             label: 'View',
             onClick: () => {
-              if (data && data.requestId) navigate(`/requests/${data.requestId}`);
-              else if(data && data.donorId) navigate(`/donor/${data.donorId}`);
-              else navigate("/requests");
+              if (data.requestId) navigate(`/requests/${data.requestId}`);
+              else if (data.donorId) navigate(`/donor/${data.donorId}`);
             }
-          }
-        });
+          };
+        }
+
+        toast.message(payload.notification.title, toastOptions);
       }
     });
+
     return () => unsubscribe();
   }, [navigate]);
 
   return (
     <div className={`${darkMode ? 'dark' : ''} transition-colors duration-300`}>
       <div className="min-h-screen bg-slate-50 dark:bg-slate-950 font-sans text-slate-900 dark:text-slate-100 selection:bg-rose-100 selection:text-rose-700">
-        
-        <nav className={`fixed top-0 w-full z-50 transition-all duration-300 ${
-          scrolled ? 'bg-white/80 dark:bg-slate-900/80 backdrop-blur-md shadow-sm py-3' : 'bg-transparent py-5'
-        }`}>
+
+        <nav className={`fixed top-0 w-full z-50 transition-all duration-300 ${scrolled ? 'bg-white/80 dark:bg-slate-900/80 backdrop-blur-md shadow-sm py-3' : 'bg-transparent py-5'
+          }`}>
           <div className="max-w-7xl mx-auto px-6 flex justify-between items-center">
             <div className="flex items-center gap-2">
               <div className="bg-rose-600 p-1.5 rounded-lg shadow-lg shadow-rose-200 dark:shadow-none">
@@ -101,8 +107,8 @@ const UserLayout: React.FC = () => {
 
             <div className="hidden md:flex items-center gap-6">
               <NavLink to="/how-it-works" className="text-sm font-semibold text-slate-600 dark:text-slate-400 hover:text-rose-600 dark:hover:text-rose-400 transition-colors">How it Works</NavLink>
-              
-              <button 
+
+              <button
                 onClick={() => setDarkMode(!darkMode)}
                 className="p-2 rounded-full bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400 hover:bg-slate-200 dark:hover:bg-slate-700 transition-all"
               >
@@ -112,7 +118,7 @@ const UserLayout: React.FC = () => {
               {loggedInUser ? (
                 /* DESKTOP USER DROPDOWN */
                 <div className="relative" ref={dropdownRef}>
-                  <button 
+                  <button
                     onClick={() => setIsProfileOpen(!isProfileOpen)}
                     className="flex items-center gap-2 pl-2 pr-3 py-1.5 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-full hover:shadow-md transition-all active:scale-95"
                   >
@@ -129,9 +135,9 @@ const UserLayout: React.FC = () => {
                         <p className="text-xs font-black text-slate-400 uppercase tracking-widest">Account</p>
                         <p className="text-sm font-bold text-slate-900 dark:text-white truncate">{loggedInUser.name}</p>
                       </div>
-                      
+
                       <div className="px-2 space-y-1">
-                        <button className="w-full flex items-center gap-3 px-4 py-3 rounded-2xl text-sm font-bold text-slate-600 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors">
+                        <button onClick={() => navigate("/user-profile")} className="w-full flex items-center gap-3 px-4 py-3 rounded-2xl text-sm font-bold text-slate-600 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors">
                           <User size={18} className="text-rose-500" /> My Profile
                         </button>
                         <button className="w-full flex items-center justify-between px-4 py-3 rounded-2xl text-sm font-bold text-slate-600 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors">
@@ -146,7 +152,7 @@ const UserLayout: React.FC = () => {
                       </div>
 
                       <div className="mt-2 pt-2 border-t border-slate-50 dark:border-slate-800 px-2">
-                        <button 
+                        <button
                           onClick={handleLogout}
                           className="w-full flex items-center gap-3 px-4 py-3 rounded-2xl text-sm font-black text-rose-600 hover:bg-rose-50 dark:hover:bg-rose-900/20 transition-colors"
                         >
@@ -157,8 +163,8 @@ const UserLayout: React.FC = () => {
                   )}
                 </div>
               ) : (
-                <button 
-                  onClick={() => navigate('/login')} 
+                <button
+                  onClick={() => navigate('/login')}
                   className="bg-slate-900 dark:bg-rose-600 text-white px-6 py-2.5 rounded-full text-sm font-bold hover:bg-slate-800 dark:hover:bg-rose-700 transition-all shadow-md active:scale-95"
                 >
                   Sign In / Join
@@ -167,7 +173,7 @@ const UserLayout: React.FC = () => {
             </div>
 
             <div className="flex items-center gap-4 md:hidden">
-              <button 
+              <button
                 onClick={() => setDarkMode(!darkMode)}
                 className="p-2 rounded-full bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400"
               >
@@ -183,8 +189,8 @@ const UserLayout: React.FC = () => {
         {/* Mobile Menu Overlay */}
         <div className={`fixed inset-0 bg-white dark:bg-slate-950 z-[55] transition-transform duration-500 md:hidden ${isMenuOpen ? 'translate-y-0' : '-translate-y-full'}`}>
           {/* Close Button inside Mobile Menu */}
-          <button 
-            onClick={closeMenu} 
+          <button
+            onClick={closeMenu}
             className="absolute top-6 right-6 p-2 text-slate-800 dark:text-white"
           >
             <X size={32} />
@@ -209,10 +215,10 @@ const UserLayout: React.FC = () => {
 
             <div className="flex flex-col gap-6 flex-grow">
               {[
-                { icon: <Bell className="w-6 h-6 text-rose-500" />, label: "Requests Nearby", href:"#"},
-                { icon: <HandHeart className="w-6 h-6 text-rose-500" />, label: "How it Works", href:"/how-it-works"},
-                { icon: <ShieldCheck className="w-6 h-6 text-rose-500" />, label: "Privacy Policy", href:"#"},
-                { icon: <Settings className="w-6 h-6 text-rose-500" />, label: "Settings",href:"#" }
+                { icon: <Bell className="w-6 h-6 text-rose-500" />, label: "Requests Nearby", href: "#" },
+                { icon: <HandHeart className="w-6 h-6 text-rose-500" />, label: "How it Works", href: "/how-it-works" },
+                { icon: <ShieldCheck className="w-6 h-6 text-rose-500" />, label: "Privacy Policy", href: "#" },
+                { icon: <Settings className="w-6 h-6 text-rose-500" />, label: "Settings", href: "#" }
               ].map((item, idx) => (
                 <a
                   key={idx}
@@ -232,14 +238,14 @@ const UserLayout: React.FC = () => {
               </button>
               {loggedInUser ? (<button onClick={handleLogout} className="w-full py-4 bg-slate-900 dark:bg-slate-800 text-white rounded-2xl font-bold text-lg">
                 Log Out
-              </button>) : (<button onClick={() => navigate('/login')}className="w-full py-4 bg-slate-900 dark:bg-slate-800 text-white rounded-2xl font-bold text-lg">
+              </button>) : (<button onClick={() => navigate('/login')} className="w-full py-4 bg-slate-900 dark:bg-slate-800 text-white rounded-2xl font-bold text-lg">
                 Sign In
               </button>)}
             </div>
           </div>
         </div>
 
-              <Outlet/>
+        <Outlet />
 
         <footer className="py-12 border-t border-slate-100 dark:border-slate-900 text-center">
           <p className="text-slate-400 dark:text-slate-500 text-sm font-medium">© 2024 BloodBridge. Built for the community, by the community.</p>
