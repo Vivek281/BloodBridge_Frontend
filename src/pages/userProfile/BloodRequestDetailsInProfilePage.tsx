@@ -62,7 +62,7 @@ const BloodRequestDetailsInProfilePage = () => {
                     <h2 className="text-2xl font-bold text-slate-800 dark:text-slate-200">Request Not Found</h2>
                     <p className="text-slate-500 mb-6">This request may have been completed or removed.</p>
                     <button
-                        onClick={() => navigate('/requests')}
+                        onClick={() => navigate('/request-list')}
                         className="px-6 py-2 bg-rose-600 text-white rounded-full font-bold hover:bg-rose-700 transition-colors"
                     >
                         Return to Map
