@@ -11,6 +11,7 @@ export interface IUser{
     _id: string;
     bloodGroup: string;
     fcmTokens: string[];
+    donationHistory: string[];
     // image:{
     //     publicId: string,
     //     secureUrl: string,

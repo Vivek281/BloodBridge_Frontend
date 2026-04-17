@@ -140,9 +140,9 @@ const UserLayout: React.FC = () => {
                         <button onClick={() => navigate("/user-profile")} className="w-full flex items-center gap-3 px-4 py-3 rounded-2xl text-sm font-bold text-slate-600 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors">
                           <User size={18} className="text-rose-500" /> My Profile
                         </button>
-                        <button className="w-full flex items-center justify-between px-4 py-3 rounded-2xl text-sm font-bold text-slate-600 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors">
+                        <button onClick={() => navigate("/request-list")} className="w-full flex items-center justify-between px-4 py-3 rounded-2xl text-sm font-bold text-slate-600 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors">
                           <div className="flex items-center gap-3">
-                            <Bell size={18} className="text-rose-500" /> Notifications
+                            <Bell size={18} className="text-rose-500" /> Requests Nearby
                           </div>
                           <span className="w-2 h-2 bg-rose-500 rounded-full animate-pulse"></span>
                         </button>
