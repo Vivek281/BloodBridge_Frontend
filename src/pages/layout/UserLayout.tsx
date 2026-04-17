@@ -1,9 +1,9 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { NavLink, Outlet, useNavigate } from 'react-router';
 import {
-  Droplets, ShieldCheck, ArrowRight, Menu, X,
-  Bell, HandHeart, User, Settings, Moon, Sun,
-  LogOut, History, ChevronDown
+  Droplets, ArrowRight, Menu, X,
+  Bell, HandHeart, User, Moon, Sun,
+  LogOut, ChevronDown
 } from 'lucide-react';
 import { useAuth } from '../../hooks/useAuth';
 import { toast } from 'sonner';
@@ -146,11 +146,7 @@ const UserLayout: React.FC = () => {
                           </div>
                           <span className="w-2 h-2 bg-rose-500 rounded-full animate-pulse"></span>
                         </button>
-                        <button className="w-full flex items-center gap-3 px-4 py-3 rounded-2xl text-sm font-bold text-slate-600 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors">
-                          <History size={18} className="text-rose-500" /> Donation History
-                        </button>
                       </div>
-
                       <div className="mt-2 pt-2 border-t border-slate-50 dark:border-slate-800 px-2">
                         <button
                           onClick={handleLogout}
@@ -215,10 +211,9 @@ const UserLayout: React.FC = () => {
 
             <div className="flex flex-col gap-6 flex-grow">
               {[
-                { icon: <Bell className="w-6 h-6 text-rose-500" />, label: "Requests Nearby", href: "#" },
+                { icon: <User className="w-6 h-6 text-rose-500" />, label: "Profile", href: "/user-profile" },
                 { icon: <HandHeart className="w-6 h-6 text-rose-500" />, label: "How it Works", href: "/how-it-works" },
-                { icon: <ShieldCheck className="w-6 h-6 text-rose-500" />, label: "Privacy Policy", href: "#" },
-                { icon: <Settings className="w-6 h-6 text-rose-500" />, label: "Settings", href: "#" }
+                { icon: <Bell className="w-6 h-6 text-rose-500" />, label: "Requests Nearby", href: "/request-list" },
               ].map((item, idx) => (
                 <a
                   key={idx}
