@@ -1,6 +1,6 @@
 import { useForm } from "react-hook-form";
 import React, { useState } from 'react';
-import { Mail, Lock, Eye, EyeOff, ArrowRight } from 'lucide-react';
+import { Mail, Lock, Eye, EyeOff, ArrowRight, Loader2 } from 'lucide-react';
 import { useAuth } from "../../hooks/useAuth";
 import * as z from "zod"
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -22,8 +22,9 @@ export const CredentialsDTO = z.object({
 
 const LoginForm: React.FC = () => {
   const [showPassword, setShowPassword] = useState(false);
+  const [loading, setLoading] = useState(false);
 
-  const { loginUser} = useAuth();
+  const { loginUser } = useAuth();
 
   const { control, handleSubmit, formState: { isSubmitting, errors } } = useForm({
     defaultValues: {
@@ -37,15 +38,17 @@ const LoginForm: React.FC = () => {
 
   const submitHandler = async (data: ICredentials) => {
     try {
+      setLoading(true)
       await loginUser(data) as unknown as IUser;
       toast.success("Welcome Back", {
         description: "Logged in successfully"
       })
-
+      setLoading(false);
       navigate("/");
 
     } catch (exception) {
       console.log(exception)
+      setLoading(false)
       toast.error("Login failed", {
         description: "Please check your credentials and try again."
       })
@@ -94,8 +97,17 @@ const LoginForm: React.FC = () => {
               disabled={isSubmitting}
               className="group w-full py-4 bg-rose-600 text-white rounded-2xl font-bold text-lg shadow-lg shadow-rose-200 dark:shadow-none hover:bg-rose-700 active:scale-[0.98] transition-all flex items-center justify-center gap-2"
             >
-              Sign In
-              <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
+              {loading ? (
+                <>
+                  <Loader2 className="w-5 h-5 animate-spin" />
+                  Signing In...
+                </>
+              ) : (
+                <>
+                  Sign In
+                  <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
+                </>
+              )}
             </button>
           </div>
         </form>
