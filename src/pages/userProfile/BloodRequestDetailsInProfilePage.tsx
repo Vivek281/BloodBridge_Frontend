@@ -219,17 +219,6 @@ const BloodRequestDetailsInProfilePage = () => {
                         </div>
                     </div>
 
-                    {/* Disclaimer */}
-                    <div className="mt-8 px-6 text-center">
-                        <div className="inline-block p-4 bg-amber-50 dark:bg-amber-900/10 rounded-2xl border border-amber-100 dark:border-amber-900/30">
-                            <p className="text-[11px] text-amber-800 dark:text-amber-400 font-bold leading-relaxed uppercase tracking-tight">
-                                Important Notice
-                            </p>
-                            <p className="text-[10px] text-amber-700/70 dark:text-amber-500/70 mt-1 max-w-sm mx-auto">
-                                By clicking "I Am Ready to Help", your identity will be verified. Only proceed if you are medically fit to donate blood.
-                            </p>
-                        </div>
-                    </div>
                 </div>
             </section>
         </div>

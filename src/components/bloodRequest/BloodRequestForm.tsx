@@ -81,10 +81,10 @@ const BloodRequestForm: React.FC = () => {
             setIsLocating(true);
             const coords = await getLocation();
             setIsLocating(false);
-    
+
             // 1. Create a FormData instance
             const formData = new FormData();
-    
+
             // 2. Append all text fields
             formData.append("patientBloodGroup", data.patientBloodGroup);
             formData.append("urgency", data.urgency);
@@ -92,22 +92,38 @@ const BloodRequestForm: React.FC = () => {
             formData.append("phone", data.phone);
             formData.append("latitude", String(coords.latitude));
             formData.append("longitude", String(coords.longitude));
-    
+
             // 3. Append the File object
             if (data.healthReport) {
                 formData.append("healthReport", data.healthReport);
             }
-    
+
             // 4. Send FormData instead of a plain object
             await axiosInstance.post("/blood-request/create-request", formData, {
                 headers: { "Content-Type": "multipart/form-data" }
             });
-    
+
             toast.success("Request made successfully!");
             navigate("/");
         } catch (err: any) {
             setIsLocating(false);
-            toast.error("Request failed.");
+            // Handle the specific Duplicate Request error from your backend
+            if (err.status === "DUPLICATE_REQUEST_ERR") {
+                toast.error("You already have a pending request.",{
+                    description:"Please wait or resolve the current one.",
+                    action: {
+                        label: 'My Request',
+                        onClick: () => navigate("/user-profile/my-request-detail")
+                      },
+                });
+            }
+            // Handle general system/timeout errors
+            else if (err.message) {
+                toast.error(err.message);
+            }
+            else {
+                toast.error("Failed to make request.");
+            }
         }
     };
 
@@ -178,7 +194,7 @@ const BloodRequestForm: React.FC = () => {
                             <FileInput
                                 name="healthReport"
                                 className="hidden"
-                                id = "healthReport"
+                                id="healthReport"
                                 control={control}
                                 errMsg={errors?.healthReport?.message}
                             />
@@ -186,8 +202,8 @@ const BloodRequestForm: React.FC = () => {
                             <label
                                 htmlFor="healthReport"
                                 className={`flex flex-col items-center justify-center w-full p-8 border-2 border-dashed rounded-[2rem] transition-all cursor-pointer group ${errors.healthReport
-                                        ? "border-rose-500 bg-rose-50/30"
-                                        : "border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-800/30 hover:bg-slate-100 dark:hover:bg-slate-800"
+                                    ? "border-rose-500 bg-rose-50/30"
+                                    : "border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-800/30 hover:bg-slate-100 dark:hover:bg-slate-800"
                                     }`}
                             >
                                 <div className="bg-white dark:bg-slate-700 p-3 rounded-xl shadow-sm mb-3 group-hover:scale-110 transition-transform">
