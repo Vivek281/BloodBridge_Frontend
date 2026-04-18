@@ -1,3 +1,42 @@
+# BloodBridge - Frontend
+
+Frontend for BloodBridge, a real-time platform that connects blood donors with recipients using location-based matching and instant notifications.
+
+## 🌐 Live Demo
+👉 https://blood-bridge-frontend-lilac.vercel.app/
+
+> Note: Backend may take a few seconds to respond initially due to free hosting.
+
+## ✨ Features
+
+- Location-based donor matching  
+- Real-time notifications (Firebase Cloud Messaging)  
+- Instant blood request system  
+- User authentication & dashboard  
+
+## 🛠️ Tech Stack
+
+- React.js  
+- TypeScript  
+- Tailwind CSS
+- Axios  
+- Firebase   
+
+## 🧠 Challenges & Learnings
+
+- Implemented real-time notifications using Firebase Cloud Messaging  
+- Handled FCM token reliability issues  
+- Improved UI/UX for emergency use cases  
+
+## 👨‍💻 Author
+
+Vivek Jha  
+- LinkedIn: https://www.linkedin.com/in/vivek-jha-55554239b/  
+
+
+
+
+
 # React + TypeScript + Vite
 
 This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
