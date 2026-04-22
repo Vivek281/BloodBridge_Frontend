@@ -11,6 +11,7 @@ import {
 import axiosInstance from "../../config/axios.config";
 import { toast } from "sonner";
 import { formatDistanceToNow } from "date-fns";
+import { useAuth } from "../../hooks/useAuth";
 
 // 1. Define the Interface clearly
 interface BloodRequest {
@@ -23,6 +24,8 @@ interface BloodRequest {
 
 const BloodRequestListPage = () => {
     const navigate = useNavigate();
+    const {loggedInUser} = useAuth();
+
 
     // 2. FIX: Initialize as an array of BloodRequest objects
     const [requests, setRequests] = useState<BloodRequest[]>([]);
@@ -35,6 +38,11 @@ const BloodRequestListPage = () => {
     const [loading, setLoading] = useState(true);
 
     const fetchRequests = useCallback(async (pageNumber = 1) => {
+        if(!loggedInUser){
+            navigate("/login");
+            toast.info("Please Login First.")
+            return;
+        }
         setLoading(true);
         try {
           // 'response' here is now the actual JSON object from your Postman snippet

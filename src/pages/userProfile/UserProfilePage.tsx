@@ -12,20 +12,20 @@ import {
 } from 'lucide-react';
 import { useNavigate } from 'react-router';
 import { useAuth } from '../../hooks/useAuth';
+import {toast} from 'sonner';
+import { useEffect } from 'react';
 
 const UserProfilePage = () => {
   const navigate = useNavigate();
   const { loggedInUser } = useAuth();
 
-  if (!loggedInUser) {
-    return (
-      <div className="min-h-screen bg-slate-50 dark:bg-slate-950 flex items-center justify-center transition-colors duration-300">
-        <p className="text-slate-400 dark:text-slate-500 font-black uppercase tracking-widest text-[10px] animate-pulse">
-          Authenticating...
-        </p>
-      </div>
-    );
-  }
+useEffect(() => {
+  if(!loggedInUser){
+    navigate("/login");
+    toast.info("Please Login First.")
+    return;
+}
+}, [loggedInUser]);
 
   return (
     <div className="min-h-screen bg-slate-50 dark:bg-slate-950 text-slate-900 dark:text-slate-100 pb-12 transition-colors duration-300">
@@ -59,10 +59,10 @@ const UserProfilePage = () => {
             )}
           </div>
           <h1 className="text-3xl font-black text-white tracking-tight capitalize">
-            {loggedInUser.name}
+            {loggedInUser?.name}
           </h1>
           <p className="text-slate-400 font-bold text-[10px] uppercase tracking-[0.3em] mt-1">
-            {loggedInUser.role} Profile
+            {loggedInUser?.role} Profile
           </p>
         </div>
       </div>
@@ -82,7 +82,7 @@ const UserProfilePage = () => {
               </div>
               <div className="flex-1">
                 <p className="text-[10px] font-black text-slate-400 dark:text-slate-500 uppercase tracking-widest mb-0.5">Blood Group</p>
-                <p className="text-lg font-black text-slate-900 dark:text-white">{loggedInUser.bloodGroup}</p>
+                <p className="text-lg font-black text-slate-900 dark:text-white">{loggedInUser?.bloodGroup}</p>
               </div>
               <div className="px-3 py-1 bg-emerald-50 dark:bg-emerald-900/20 text-emerald-600 dark:text-emerald-400 rounded-lg text-[10px] font-black uppercase tracking-tight">
                 Active
@@ -96,7 +96,7 @@ const UserProfilePage = () => {
               </div>
               <div>
                 <p className="text-[10px] font-black text-slate-400 dark:text-slate-500 uppercase tracking-widest mb-0.5">Email Address</p>
-                <p className="text-sm font-bold text-slate-800 dark:text-slate-200">{loggedInUser.email}</p>
+                <p className="text-sm font-bold text-slate-800 dark:text-slate-200">{loggedInUser?.email}</p>
               </div>
             </div>
 
@@ -107,7 +107,7 @@ const UserProfilePage = () => {
               </div>
               <div>
                 <p className="text-[10px] font-black text-slate-400 dark:text-slate-500 uppercase tracking-widest mb-0.5">Residential Address</p>
-                <p className="text-sm font-bold text-slate-800 dark:text-slate-200">{loggedInUser.address}</p>
+                <p className="text-sm font-bold text-slate-800 dark:text-slate-200">{loggedInUser?.address}</p>
               </div>
             </div>
           </div>
@@ -150,7 +150,7 @@ const UserProfilePage = () => {
                   <h3 className="text-sm font-black text-slate-900 dark:text-white uppercase tracking-tight">Active Donation</h3>
                   {/* SUCCESS COUNTER BADGE */}
                   <span className="bg-emerald-100 dark:bg-emerald-900/40 text-emerald-600 dark:text-emerald-400 text-[9px] font-black px-2 py-0.5 rounded-full uppercase">
-                    {loggedInUser.donationHistory?.length || 0} Successful
+                    {loggedInUser?.donationHistory?.length || 0} Successful
                   </span>
                 </div>
                 <p className="text-[10px] font-bold text-slate-400 dark:text-slate-500 uppercase tracking-widest">Your current hero mission</p>
